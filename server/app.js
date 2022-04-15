@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const axios = require('axios');
 require('dotenv').config();
+
+const ACCESS_TOKEN = ''
+
 app.use(express.json()) // parses request body as json
 
 app.use(function(req, res, next) {
@@ -24,7 +27,7 @@ app.post('/summary', (req, res, next) => {
         method: 'POST',
         url: 'https://api.nlpcloud.io/v1/bart-large-cnn/summarization',
         headers: {
-            'Authorization': `Bearer ${process.env.AUTH_TOKEN}`,
+            'Authorization': `Bearer ${process.env.AUTH_TOKEN || ACCESS_TOKEN}`,
             'Content-Type': 'application/json',
         },
         data: {
@@ -40,7 +43,7 @@ app.post('/summary', (req, res, next) => {
     }).catch(function (error) {
         res.send(error)
     });
-    
+
     console.timeEnd('init summarizer');
 })
 
